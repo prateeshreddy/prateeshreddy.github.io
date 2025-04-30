@@ -1,18 +1,16 @@
 // worker.js
-// RAG-powered resume chatbot with proper error handling
+// RAG-powered resume chatbot (using text-embedding-ada-002)
 
-// Cosine similarity helper
 function cosine(a, b) {
   let dot = 0, normA = 0, normB = 0;
   for (let i = 0; i < a.length; i++) {
     dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+    normA += a[i]*a[i];
+    normB += b[i]*b[i];
   }
   return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-// Split resume into chunks on each "### " heading
 function chunkText(markdown) {
   const parts = markdown.split(/^### /m).slice(1);
   return parts.map(p => '### ' + p.trim());
@@ -20,81 +18,85 @@ function chunkText(markdown) {
 
 export default {
   async fetch(request, env) {
-    const cors = {
+    const CORS = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "POST,OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
-
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers: cors });
-    }
-    if (request.method !== "POST") {
-      return new Response("Not found", { status: 404, headers: cors });
-    }
+    if (request.method === "OPTIONS")
+      return new Response(null, { headers: CORS });
+    if (request.method !== "POST")
+      return new Response("Not found", { status: 404, headers: CORS });
 
     try {
-      // Parse user query
       const { messages } = await request.json();
-      const query = messages[messages.length - 1].content;
+      const query = messages.at(-1).content;
 
-      // Fetch and chunk the resume
+      // 1) Fetch & chunk resume
       const RESUME_URL = "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/feature/chatbot/resume.md";
       const resumeText = await (await fetch(RESUME_URL)).text();
       const chunks = chunkText(resumeText);
 
-      // Embed chunks
-      const embedRes = await fetch("https://api.openai.com/v1/embeddings", {
+      // 2) Embed chunks
+      let res = await fetch("https://api.openai.com/v1/embeddings", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "text-embedding-3-small",
+          model: "text-embedding-ada-002",
           input: chunks
         })
       });
-      const embedData = await embedRes.json();
+      let json = await res.json();
+      if (!res.ok || !Array.isArray(json.data)) {
+        console.error("Chunk embedding failed:", res.status, json);
+        throw new Error(json.error?.message || "Chunk embed error");
+      }
       const indexed = chunks.map((text, i) => ({
         text,
-        vector: embedData.data[i].embedding
+        vector: json.data[i].embedding
       }));
 
-      // Embed the user query
-      const queryRes = await fetch("https://api.openai.com/v1/embeddings", {
+      // 3) Embed query
+      res = await fetch("https://api.openai.com/v1/embeddings", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          model: "text-embedding-3-small",
+          model: "text-embedding-ada-002",
           input: [query]
         })
       });
-      const queryVec = (await queryRes.json()).data[0].embedding;
+      json = await res.json();
+      if (!res.ok || !Array.isArray(json.data)) {
+        console.error("Query embedding failed:", res.status, json);
+        throw new Error(json.error?.message || "Query embed error");
+      }
+      const queryVec = json.data[0].embedding;
 
-      // Score and pick top 3 chunks
-      const topChunks = indexed
+      // 4) Retrieve top-3
+      const top = indexed
         .map(c => ({ ...c, score: cosine(queryVec, c.vector) }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3)
+        .sort((a,b) => b.score - a.score)
+        .slice(0,3)
         .map(c => c.text)
         .join("\n\n");
 
-      // Build system prompt
-      const systemPrompt = `
+      // 5) Chat completion
+      const prompt = `
 You are an assistant that ONLY answers questions about Prateesh Reddy Patlolla.
 Use ONLY the following context from his résumé to answer truthfully:
-${topChunks}
+${top}
 
 If asked anything outside this context, reply:
 "Sorry, I only answer questions about Prateesh."
 `.trim();
 
-      // Call chat completion
-      const chatRes = await fetch("https://api.openai.com/v1/chat/completions", {
+      res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
@@ -103,22 +105,21 @@ If asked anything outside this context, reply:
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           messages: [
-            { role: "system", content: systemPrompt },
+            { role: "system", content: prompt },
             { role: "user",   content: query }
           ],
           temperature: 0.0
         })
       });
-      const chatJson = await chatRes.json();
+      json = await res.json();
 
-      // Safely extract answer
       let answer = "Sorry, I couldn’t generate a response.";
-      if (chatJson.choices && chatJson.choices[0]?.message?.content) {
-        answer = chatJson.choices[0].message.content;
+      if (json.choices?.[0]?.message?.content) {
+        answer = json.choices[0].message.content;
       }
 
       return new Response(JSON.stringify({ content: answer }), {
-        headers: { "Content-Type": "application/json", ...cors }
+        headers: { "Content-Type": "application/json", ...CORS }
       });
 
     } catch (err) {
@@ -127,7 +128,7 @@ If asked anything outside this context, reply:
         content: "Sorry, something went wrong on my end. Check logs."
       }), {
         status: 500,
-        headers: { "Content-Type": "application/json", ...cors }
+        headers: { "Content-Type": "application/json", ...CORS }
       });
     }
   }
