@@ -14,7 +14,8 @@
 
 /* Chat container */
 #chat {
-    width: 320px;
+    width: 360px;
+    /* increased from 320px */
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
@@ -66,20 +67,13 @@
     border-radius: 16px;
     /* fully rounded like iMessage */
     line-height: 1.4;
+    word-break: break-word;
+    /* wrap long text */
 }
 
-.bot .message {
-    background: #fff;
-    color: #333;
-}
-
-.user .message {
-    background: #8B4513;
-    color: #fff;
-}
-
-/* Question buttons */
+/* Transparent question buttons */
 .button-row {
+    display: flex;
     flex-wrap: wrap;
     gap: 6px;
 }
@@ -92,6 +86,11 @@
     padding: 0.4rem 0.8rem;
     cursor: pointer;
     font-size: 0.85rem;
+
+    /* wrap button text */
+    white-space: normal;
+    text-align: center;
+    word-break: break-word;
 }
 
 .sample-button:hover {
