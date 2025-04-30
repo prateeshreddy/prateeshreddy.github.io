@@ -1,3 +1,4 @@
+const WORKER_URL = "https://prateesh-chatbot-production.prateeshreddy99.workers.dev";
 // assets/js/chatbot.js
 (async () => {
   const QUESTIONS = [
@@ -37,6 +38,8 @@
     introMsg.innerHTML = `
       👋 Hi, I'm an intelligent AI Chatbot created by Prateesh.<br>
       You can ask me anything about Prateesh.<br>
+      <br>
+      <br>
       I'm kidding lol!<br>
       I was told by Prateesh not to reveal his secrets but I can share about his work.<br><br>
       Below are some questions you can ask me
@@ -70,7 +73,7 @@
     messagesEl.append(uWrap);
 
     // call the chat API
-    const res = await fetch("/chat", {
+    const res = await fetch(WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: [{ role: "user", content: question }] })
