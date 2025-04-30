@@ -91,29 +91,29 @@
 }
 
 /* Question buttons */
+
 .button-row {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
     width: 100%;
     margin-top: 0.5rem;
 }
 
 .sample-button {
     box-sizing: border-box;
-    /* include border in width */
-    display: block;
     width: 100%;
-    /* full container width */
-    background: transparent;
-    border: 1px solid #DEB887;
-    /* light brown */
-    color: #DEB887;
-    /* light brown */
-    border-radius: 16px;
-    padding: 0.6rem 0.8rem;
+    background: transparent !important;
+    border: 1px solid #DEB887 !important;
+    /* light-brown border */
+    color: #DEB887 !important;
+    /* light-brown text */
+    border-radius: 12px;
+    padding: 0.4rem 0.6rem;
+    /* smaller height */
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    /* smaller text */
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -121,8 +121,8 @@
 }
 
 .sample-button:hover {
-    background: #DEB887;
-    color: #fff;
+    background: #DEB887 !important;
+    color: #fff !important;
 }
 
 /* Input area */
