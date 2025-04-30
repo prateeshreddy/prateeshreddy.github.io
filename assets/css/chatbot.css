@@ -106,19 +106,18 @@
     box-sizing: border-box;
     width: 100%;
     display: block;
-    background: transparent !important;
+    background-color: transparent !important;
+    /* no fill */
     border: 1px solid #DEB887 !important;
-    /* light brown border */
+    /* brown border */
     color: #DEB887 !important;
-    /* light brown text */
+    /* brown text */
     border-radius: 12px;
-    padding: 0.5rem 0.75rem;
-    /* slightly smaller */
+    padding: 0.4rem 0.6rem;
     cursor: pointer;
-    font-size: 1rem;
-    /* same as .message */
+    font-size: 10px !important;
+    /* shrink text */
     font-family: inherit;
-    /* SF system font */
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -126,7 +125,8 @@
 }
 
 .sample-button:hover {
-    background: #DEB887 !important;
+    background-color: #DEB887 !important;
+    /* keeps hover */
     color: #fff !important;
 }
 
