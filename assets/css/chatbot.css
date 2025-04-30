@@ -99,7 +99,7 @@
     flex-direction: column;
     gap: 0.4rem;
     width: 100%;
-    margin-top: 0.5rem;
+    margin-top: 0.3rem;
 }
 
 .sample-button {
@@ -112,10 +112,10 @@
     /* brown border */
     color: #DEB887 !important;
     /* brown text */
-    border-radius: 12px;
+    border-radius: 11px;
     padding: 0.4rem 0.6rem;
     cursor: pointer;
-    font-size: 10px !important;
+    font-size: 12px !important;
     /* shrink text */
     font-family: inherit;
     white-space: normal;
