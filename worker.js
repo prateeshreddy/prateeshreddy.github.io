@@ -1,95 +1,126 @@
 // worker.js
-// RAG-powered resume chatbot (using text-embedding-ada-002)
+// Hybrid: direct answers for common questions + RAG fallback
 
-function cosine(a, b) {
-  let dot = 0, normA = 0, normB = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i]*a[i];
-    normB += b[i]*b[i];
-  }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+function jsonResponse(obj, status = 200) {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  });
 }
 
-function chunkText(markdown) {
-  const parts = markdown.split(/^### /m).slice(1);
-  return parts.map(p => '### ' + p.trim());
+// 1) Direct‐mapping lookup for your eight questions
+function directAnswer(question) {
+  const q = question.toLowerCase().trim();
+  const map = {
+    "what is prateesh currently working on at toyota?":
+      `At Toyota, Prateesh is leading the development of predictive scheduling and production planning models using linear programming and machine learning to optimize monthly vehicle builds across 1200+ dealerships. He also developed a GenAI-powered assistant ('AskToyota') using LLaMA2 and LangChain to surface forecasting documentation and improve decision-making across business units.`,
+
+    "which roles is prateesh interested in?":
+      `Senior-level roles in Data Science, Machine Learning Engineering, Applied Science, or Solutions Engineering. Open to in-person or hybrid roles across the U.S., with a strong preference for positions that emphasize applied GenAI, LLM systems, or scalable ML infrastructure.`,
+
+    "what is prateesh’s work authorization?":
+      `Currently holds an H-1B visa and is open to H-1B transfer. Eligible for full-time employment in the U.S. without work restrictions.`,
+
+    "does prateesh have experience with generative ai or llms?":
+      `Yes. Prateesh built an internal Generative AI assistant at Toyota called 'AskToyota' using retrieval-augmented generation (RAG), FAISS vector stores, and self-hosted LLaMA2. He orchestrated the solution with LangChain and deployed it internally using Docker, FastAPI, and AWS infrastructure.`,
+
+    "has prateesh deployed ml models to production?":
+      `Yes. He has built and deployed production-grade ML pipelines using SageMaker, Airflow, and CloudWatch. These pipelines support monthly forecasting and optimization runs at Toyota and are fully automated with monitoring, retraining, and data integrity checks.`,
+
+    "what cloud and mlops tools has prateesh used?":
+      `AWS (SageMaker, EC2, S3, CloudWatch), Azure, Docker, FastAPI, Airflow, GitHub Actions, Jenkins. Skilled in CI/CD pipelines, data validation, scalable deployments, and real-time monitoring.`,
+
+    "does prateesh have experience with optimization algorithms?":
+      `Yes. At Toyota, he implemented constrained linear programming using GurobiPy to solve supply chain and production allocation problems at scale, improving plant throughput and reducing inventory mismatches.`,
+
+    "what types of problems is prateesh best suited to solve?":
+      `Complex forecasting, production planning, demand modeling, Generative AI applications, optimization problems, and ML system deployment — especially those requiring cross-functional collaboration and scalability.`
+  };
+  return map[q] || null;
+}
+
+// 2) Cosine similarity & chunking for RAG fallback
+function cosine(a, b) {
+  let dot=0,nA=0,nB=0;
+  for (let i=0;i<a.length;i++){ dot+=a[i]*b[i]; nA+=a[i]*a[i]; nB+=b[i]*b[i]; }
+  return dot/(Math.sqrt(nA)*Math.sqrt(nB));
+}
+function chunkText(md) {
+  const parts = md.split(/^### /m).slice(1);
+  return parts.map(p => '### '+p.trim());
 }
 
 export default {
   async fetch(request, env) {
-    const CORS = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST,OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    };
-    if (request.method === "OPTIONS")
-      return new Response(null, { headers: CORS });
-    if (request.method !== "POST")
-      return new Response("Not found", { status: 404, headers: CORS });
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: {
+        "Access-Control-Allow-Origin":"*",
+        "Access-Control-Allow-Methods":"POST,OPTIONS",
+        "Access-Control-Allow-Headers":"Content-Type"
+      }});
+    }
+    if (request.method !== "POST") {
+      return new Response("Not found", { status:404 });
+    }
 
+    const { messages } = await request.json();
+    const question = messages[messages.length-1].content;
+
+    //––– 1) Try direct mapping
+    const direct = directAnswer(question);
+    if (direct) {
+      return jsonResponse({ content: direct });
+    }
+
+    //––– 2) RAG fallback (unchanged embedding + chat logic)
     try {
-      const { messages } = await request.json();
-      const query = messages.at(-1).content;
-
-      // 1) Fetch & chunk resume
       const RESUME_URL = "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/feature/chatbot/resume.md";
-      const resumeText = await (await fetch(RESUME_URL)).text();
-      const chunks = chunkText(resumeText);
+      const md = await (await fetch(RESUME_URL)).text();
+      const chunks = chunkText(md);
 
-      // 2) Embed chunks
+      // embed chunks
       let res = await fetch("https://api.openai.com/v1/embeddings", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json"
+        method:"POST",
+        headers:{
+          "Authorization":`Bearer ${env.OPENAI_API_KEY}`,
+          "Content-Type":"application/json"
         },
-        body: JSON.stringify({
-          model: "text-embedding-ada-002",
-          input: chunks
-        })
+        body: JSON.stringify({ model:"text-embedding-ada-002", input:chunks })
       });
-      let json = await res.json();
-      if (!res.ok || !Array.isArray(json.data)) {
-        console.error("Chunk embedding failed:", res.status, json);
-        throw new Error(json.error?.message || "Chunk embed error");
-      }
-      const indexed = chunks.map((text, i) => ({
-        text,
-        vector: json.data[i].embedding
-      }));
+      let js = await res.json();
+      if (!res.ok || !Array.isArray(js.data)) throw new Error(js.error?.message||"Chunk embed failed");
+      const indexed = chunks.map((t,i)=>({ text:t, vec: js.data[i].embedding }));
 
-      // 3) Embed query
+      // embed query
       res = await fetch("https://api.openai.com/v1/embeddings", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json"
+        method:"POST",
+        headers:{
+          "Authorization":`Bearer ${env.OPENAI_API_KEY}`,
+          "Content-Type":"application/json"
         },
-        body: JSON.stringify({
-          model: "text-embedding-ada-002",
-          input: [query]
-        })
+        body: JSON.stringify({ model:"text-embedding-ada-002", input:[question] })
       });
-      json = await res.json();
-      if (!res.ok || !Array.isArray(json.data)) {
-        console.error("Query embedding failed:", res.status, json);
-        throw new Error(json.error?.message || "Query embed error");
-      }
-      const queryVec = json.data[0].embedding;
+      js = await res.json();
+      if (!res.ok || !Array.isArray(js.data)) throw new Error(js.error?.message||"Query embed failed");
+      const qVec = js.data[0].embedding;
 
-      // 4) Retrieve top-3
+      // retrieve top 3
       const top = indexed
-        .map(c => ({ ...c, score: cosine(queryVec, c.vector) }))
-        .sort((a,b) => b.score - a.score)
+        .map(c=>({ ...c, score:cosine(qVec,c.vec) }))
+        .sort((a,b)=>b.score-a.score)
         .slice(0,3)
-        .map(c => c.text)
+        .map(c=>c.text)
         .join("\n\n");
 
-      // 5) Chat completion
-      const prompt = `
+      // chat completion
+      const system = `
 You are an assistant that ONLY answers questions about Prateesh Reddy Patlolla.
-Use ONLY the following context from his résumé to answer truthfully:
+Use ONLY the following context from his résumé:
 ${top}
 
 If asked anything outside this context, reply:
@@ -97,39 +128,28 @@ If asked anything outside this context, reply:
 `.trim();
 
       res = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
-          "Content-Type": "application/json"
+        method:"POST",
+        headers:{
+          "Authorization":`Bearer ${env.OPENAI_API_KEY}`,
+          "Content-Type":"application/json"
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
-          messages: [
-            { role: "system", content: prompt },
-            { role: "user",   content: query }
+          messages:[
+            { role:"system", content:system },
+            { role:"user", content:question }
           ],
-          temperature: 0.0
+          temperature:0.0
         })
       });
-      json = await res.json();
+      js = await res.json();
+      const content = js.choices?.[0]?.message?.content || "Sorry, I couldn’t generate a response.";
 
-      let answer = "Sorry, I couldn’t generate a response.";
-      if (json.choices?.[0]?.message?.content) {
-        answer = json.choices[0].message.content;
-      }
-
-      return new Response(JSON.stringify({ content: answer }), {
-        headers: { "Content-Type": "application/json", ...CORS }
-      });
+      return jsonResponse({ content });
 
     } catch (err) {
-      console.error("Worker error:", err);
-      return new Response(JSON.stringify({
-        content: "Sorry, something went wrong on my end. Check logs."
-      }), {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...CORS }
-      });
+      console.error("RAG error:", err);
+      return jsonResponse({ content: "Sorry, something went wrong." }, 500);
     }
   }
 };
