@@ -6,24 +6,29 @@
     "What is Prateesh’s work authorization?"
   ];
 
-  // 1. Inject the container
+  // Inject the widget
   const container = document.getElementById("chat-container");
   container.innerHTML = `
     <div id="chat">
       <div id="chat-header">🤖 Ask About Prateesh</div>
-      <div id="messages"></div>
-      <div id="input-area">
-        <input id="input" placeholder="Type a question…" />
-        <button id="send">Send</button>
+      <div class="content">
+        <div id="messages"></div>
+        <div id="input-area">
+          <input id="input" placeholder="Type a question…" />
+          <button id="send">Send</button>
+        </div>
       </div>
     </div>`;
 
+  const chat = document.getElementById("chat");
+  const header = document.getElementById("chat-header");
   const messagesEl = document.getElementById("messages");
+  const input = document.getElementById("input");
+  const sendBtn = document.getElementById("send");
 
-  // 2. Render intro + buttons
+  // Render the intro + buttons
   function showIntro() {
     messagesEl.innerHTML = "";
-
     // Intro bubble
     const introWrap = document.createElement("div");
     introWrap.className = "bot message-wrapper";
@@ -36,10 +41,10 @@
       I was told by Prateesh not to reveal his secrets but I can share about his work.<br><br>
       Below are some questions you can ask me
     `;
-    introWrap.appendChild(introMsg);
-    messagesEl.appendChild(introWrap);
+    introWrap.append(introMsg);
+    messagesEl.append(introWrap);
 
-    // Button row (transparent style)
+    // Transparent chocolate-brown buttons
     const btnRow = document.createElement("div");
     btnRow.className = "bot message-wrapper button-row";
     QUESTIONS.forEach(q => {
@@ -48,60 +53,59 @@
       btn.textContent = q;
       btn.onclick = () => {
         send(q);
-        btn.remove();
+        btn.remove();  // remove after use
       };
-      btnRow.appendChild(btn);
+      btnRow.append(btn);
     });
-    messagesEl.appendChild(btnRow);
-
+    messagesEl.append(btnRow);
     messagesEl.scrollTop = 1e9;
   }
 
-  // 3. Handle sending (buttons or input)
+  // Send user question → Worker → display bot answer
   async function send(question) {
-    // 3a. Show user bubble
+    // user bubble
     const uWrap = document.createElement("div");
     uWrap.className = "user message-wrapper";
-    const uMsg = document.createElement("div");
-    uMsg.className = "message";
-    uMsg.textContent = question;
-    uWrap.appendChild(uMsg);
-    messagesEl.appendChild(uWrap);
+    uWrap.innerHTML = `<div class="message">${question}</div>`;
+    messagesEl.append(uWrap);
 
-    // 3b. Call Worker
-    const res = await fetch("https://prateesh-chatbot-production.prateeshreddy99.workers.dev", {
+    // call the chat API
+    const res = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: [{ role: "user", content: question }] })
     });
     const { content } = await res.json();
 
-    // 3c. Show bot bubble
+    // bot bubble
     const bWrap = document.createElement("div");
     bWrap.className = "bot message-wrapper";
-    const bMsg = document.createElement("div");
-    bMsg.className = "message";
-    bMsg.textContent = content;
-    bWrap.appendChild(bMsg);
-    messagesEl.appendChild(bWrap);
+    bWrap.innerHTML = `<div class="message">${content}</div>`;
+    messagesEl.append(bWrap);
 
     messagesEl.scrollTop = 1e9;
   }
 
-  // 4. Wire up the “Send” button + Enter key
-  document.getElementById("send").onclick = () => {
-    const q = document.getElementById("input").value.trim();
-    if (q) {
-      send(q);
-      document.getElementById("input").value = "";
-    }
+  // Wire up Send button & Enter key
+  sendBtn.onclick = () => {
+    const q = input.value.trim();
+    if (!q) return;
+    send(q);
+    input.value = "";
   };
-  document.getElementById("input").addEventListener("keypress", e => {
-    if (e.key === "Enter") {
-      document.getElementById("send").click();
-    }
+  input.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendBtn.click();
   });
 
-  // 5. Show intro on load
-  showIntro();
+  // Toggle open/close
+  header.onclick = () => {
+    if (!chat.classList.contains("open")) {
+      chat.classList.add("open");
+      showIntro();
+    } else {
+      chat.classList.remove("open");
+    }
+  };
+
+  // Start closed
 })();
