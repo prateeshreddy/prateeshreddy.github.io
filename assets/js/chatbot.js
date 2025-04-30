@@ -1,7 +1,6 @@
 // worker.js
-// RAG-powered resume chatbot, with embedding error checks
+// RAG‐powered resume chatbot (using text-embedding-ada-002)
 
-// Cosine similarity helper
 function cosine(a, b) {
   let dot = 0, normA = 0, normB = 0;
   for (let i = 0; i < a.length; i++) {
@@ -24,87 +23,80 @@ export default {
       "Access-Control-Allow-Methods": "POST,OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
-    if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
-    if (request.method !== "POST") return new Response("Not found", { status: 404, headers: CORS });
+    if (request.method === "OPTIONS")
+      return new Response(null, { headers: CORS });
+    if (request.method !== "POST")
+      return new Response("Not found", { status: 404, headers: CORS });
 
     try {
       const { messages } = await request.json();
       const query = messages.at(-1).content;
 
-      // 1. Fetch & chunk resume
-      const RESUME_URL = 
-        "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/feature/chatbot/resume.md";
+      // 1) Fetch & chunk resume
+      const RESUME_URL = "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/feature/chatbot/resume.md";
       const resumeText = await (await fetch(RESUME_URL)).text();
       const chunks = chunkText(resumeText);
 
-      // 2. Embed chunks
-      const embedRes = await fetch("https://api.openai.com/v1/embeddings", {
+      // 2) Embed chunks (correct model)
+      let res = await fetch("https://api.openai.com/v1/embeddings", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ model: "text-embedding-3-small", input: chunks })
+        body: JSON.stringify({
+          model: "text-embedding-ada-002",
+          input: chunks
+        })
       });
-      const embedText = await embedRes.text();
-      let embedData;
-      try {
-        embedData = JSON.parse(embedText);
-      } catch {
-        console.error("Embedding chunks non-JSON response:", embedText);
-        throw new Error("Embedding chunks returned invalid JSON");
-      }
-      if (!embedRes.ok || !Array.isArray(embedData.data)) {
-        console.error("Embedding chunks error:", embedRes.status, embedText);
-        throw new Error(`Embedding chunks failed: ${embedData.error?.message||embedRes.status}`);
+      let json = await res.json();
+      if (!res.ok || !Array.isArray(json.data)) {
+        console.error("Chunk embedding failed:", res.status, json);
+        throw new Error(json.error?.message || "Chunk embed error");
       }
       const indexed = chunks.map((text, i) => ({
         text,
-        vector: embedData.data[i].embedding
+        vector: json.data[i].embedding
       }));
 
-      // 3. Embed query
-      const queryRes = await fetch("https://api.openai.com/v1/embeddings", {
+      // 3) Embed query
+      res = await fetch("https://api.openai.com/v1/embeddings", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ model: "text-embedding-3-small", input: [query] })
+        body: JSON.stringify({
+          model: "text-embedding-ada-002",
+          input: [query]
+        })
       });
-      const queryText = await queryRes.text();
-      let queryData;
-      try {
-        queryData = JSON.parse(queryText);
-      } catch {
-        console.error("Embedding query non-JSON response:", queryText);
-        throw new Error("Embedding query returned invalid JSON");
+      json = await res.json();
+      if (!res.ok || !Array.isArray(json.data)) {
+        console.error("Query embedding failed:", res.status, json);
+        throw new Error(json.error?.message || "Query embed error");
       }
-      if (!queryRes.ok || !Array.isArray(queryData.data)) {
-        console.error("Embedding query error:", queryRes.status, queryText);
-        throw new Error(`Embedding query failed: ${queryData.error?.message||queryRes.status}`);
-      }
-      const queryVec = queryData.data[0].embedding;
+      const queryVec = json.data[0].embedding;
 
-      // 4. Retrieve top 3 chunks
-      const topChunks = indexed
+      // 4) Retrieve top-3
+      const top = indexed
         .map(c => ({ ...c, score: cosine(queryVec, c.vector) }))
         .sort((a,b) => b.score - a.score)
         .slice(0,3)
         .map(c => c.text)
         .join("\n\n");
 
-      // 5. Chat completion
-      const systemPrompt = `
+      // 5) Chat completion
+      const prompt = `
 You are an assistant that ONLY answers questions about Prateesh Reddy Patlolla.
 Use ONLY the following context from his résumé to answer truthfully:
-${topChunks}
+${top}
 
 If asked anything outside this context, reply:
 "Sorry, I only answer questions about Prateesh."
 `.trim();
 
-      const chatRes = await fetch("https://api.openai.com/v1/chat/completions", {
+      res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${env.OPENAI_API_KEY}`,
@@ -113,16 +105,17 @@ If asked anything outside this context, reply:
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           messages: [
-            { role: "system", content: systemPrompt },
+            { role: "system", content: prompt },
             { role: "user",   content: query }
           ],
           temperature: 0.0
         })
       });
-      const chatJson = await chatRes.json();
+      json = await res.json();
+
       let answer = "Sorry, I couldn’t generate a response.";
-      if (chatJson.choices?.[0]?.message?.content) {
-        answer = chatJson.choices[0].message.content;
+      if (json.choices?.[0]?.message?.content) {
+        answer = json.choices[0].message.content;
       }
 
       return new Response(JSON.stringify({ content: answer }), {
