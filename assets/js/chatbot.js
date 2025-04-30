@@ -3,11 +3,17 @@
 const WORKER_URL = "https://prateesh-chatbot-production.prateeshreddy99.workers.dev";
 
 (async () => {
-  const QUESTIONS = [
-    "What is Prateesh currently working on at Toyota?",
-    "Which roles is Prateesh interested in?",
-    "What is Prateesh’s work authorization?"
-  ];
+const QUESTIONS = [
+  "What is Prateesh currently working on at Toyota?",
+  "Which roles is Prateesh interested in?",
+  "What is Prateesh’s work authorization?",
+  "Does Prateesh have experience with generative AI or LLMs?",
+  "Has Prateesh deployed ML models to production?",
+  "What cloud and MLOps tools has Prateesh used?",
+  "Does Prateesh have experience with optimization algorithms?",
+  "What types of problems is Prateesh best suited to solve?"
+];
+
 
   // Inject the widget
   const container = document.getElementById("chat-container");

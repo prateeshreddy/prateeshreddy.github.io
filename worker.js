@@ -124,7 +124,7 @@ Use ONLY the following context from his résumé:
 ${top}
 
 If asked anything outside this context, reply:
-"Sorry, I only answer questions about Prateesh."
+"Sorry, I only answer questions about Prateesh's work and resume."
 `.trim();
 
       res = await fetch("https://api.openai.com/v1/chat/completions", {
