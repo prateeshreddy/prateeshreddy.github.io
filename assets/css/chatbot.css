@@ -5,7 +5,6 @@
     display: none;
     flex-direction: column;
     max-height: 80vh;
-    /* always fit in viewport */
 }
 
 #chat.open .content {
@@ -14,11 +13,12 @@
 
 /* Chat container */
 #chat {
-    width: 360px;
-    /* increased from 320px */
+    /* Desktop: 25% of viewport width, between 300px–480px */
+    width: clamp(300px, 25vw, 480px);
     position: fixed;
     bottom: 1.5rem;
-    right: 1.5rem;
+    left: 1.5rem;
+    /* moved to left */
     background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -29,10 +29,19 @@
     z-index: 9999;
 }
 
+/* Mobile: full width, flush to bottom, no rounding */
+@media (max-width: 768px) {
+    #chat {
+        width: 100vw;
+        left: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
+}
+
 /* Header */
 #chat-header {
     background: #8B4513;
-    /* chocolate brown */
     color: #fff;
     padding: 0.75rem;
     font-weight: 600;
@@ -65,13 +74,21 @@
     max-width: 80%;
     padding: 0.5rem 0.75rem;
     border-radius: 16px;
-    /* fully rounded like iMessage */
     line-height: 1.4;
     word-break: break-word;
-    /* wrap long text */
 }
 
-/* Transparent question buttons */
+.bot .message {
+    background: #fff;
+    color: #333;
+}
+
+.user .message {
+    background: #8B4513;
+    color: #fff;
+}
+
+/* Question buttons */
 .button-row {
     display: flex;
     flex-wrap: wrap;
@@ -86,11 +103,8 @@
     padding: 0.4rem 0.8rem;
     cursor: pointer;
     font-size: 0.85rem;
-
-    /* wrap button text */
     white-space: normal;
     text-align: center;
-    word-break: break-word;
 }
 
 .sample-button:hover {
