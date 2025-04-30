@@ -13,7 +13,6 @@
 
 /* Chat container */
 #chat {
-    /* 25% of viewport width, min 300px, max 480px */
     width: clamp(300px, 25vw, 480px);
     position: fixed;
     bottom: 1.5rem;
@@ -76,9 +75,9 @@
     max-width: 80%;
     padding: 0.5rem 0.75rem;
     border-radius: 16px;
-    /* fully rounded, iMessage style */
     line-height: 1.4;
     word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .bot .message {
@@ -101,21 +100,28 @@
 }
 
 .sample-button {
+    box-sizing: border-box;
+    /* include border in width */
+    display: block;
     width: 100%;
+    /* full container width */
     background: transparent;
-    border: 1px solid #8B4513;
-    color: #8B4513;
+    border: 1px solid #DEB887;
+    /* light brown */
+    color: #DEB887;
+    /* light brown */
     border-radius: 16px;
     padding: 0.6rem 0.8rem;
     cursor: pointer;
     font-size: 0.9rem;
     white-space: normal;
     word-break: break-word;
+    overflow-wrap: break-word;
     text-align: center;
 }
 
 .sample-button:hover {
-    background: #8B4513;
+    background: #DEB887;
     color: #fff;
 }
 
