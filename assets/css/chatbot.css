@@ -40,7 +40,6 @@
 /* Header */
 #chat-header {
     background: #8B4513;
-    /* chocolate brown */
     color: #fff;
     padding: 0.75rem;
     font-weight: 600;
@@ -78,6 +77,10 @@
     line-height: 1.4;
     word-break: break-word;
     overflow-wrap: break-word;
+    font-size: 1rem;
+    /* match default text size */
+    font-family: inherit;
+    /* SF system font */
 }
 
 .bot .message {
@@ -91,7 +94,6 @@
 }
 
 /* Question buttons */
-
 .button-row {
     display: flex;
     flex-direction: column;
@@ -103,17 +105,20 @@
 .sample-button {
     box-sizing: border-box;
     width: 100%;
+    display: block;
     background: transparent !important;
     border: 1px solid #DEB887 !important;
-    /* light-brown border */
+    /* light brown border */
     color: #DEB887 !important;
-    /* light-brown text */
+    /* light brown text */
     border-radius: 12px;
-    padding: 0.4rem 0.6rem;
-    /* smaller height */
+    padding: 0.5rem 0.75rem;
+    /* slightly smaller */
     cursor: pointer;
-    font-size: 0.8rem;
-    /* smaller text */
+    font-size: 1rem;
+    /* same as .message */
+    font-family: inherit;
+    /* SF system font */
     white-space: normal;
     word-break: break-word;
     overflow-wrap: break-word;
@@ -137,7 +142,9 @@
     border: 1px solid #ccc;
     border-radius: 6px;
     padding: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    /* match message size */
+    font-family: inherit;
     margin-right: 0.5rem;
 }
 
@@ -148,7 +155,8 @@
     color: white;
     padding: 0 1rem;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-family: inherit;
 }
 
 #input-area button:hover {
