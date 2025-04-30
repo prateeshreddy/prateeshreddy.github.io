@@ -1,0 +1,113 @@
+/* assets/css/chatbot.css */
+
+#chat {
+    width: 320px;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: 'Source Sans Pro', sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+#chat-header {
+    background: #8B4513;
+    color: #fff;
+    padding: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    cursor: default;
+}
+
+#messages {
+    flex: 1;
+    padding: 0.75rem;
+    background: #f7f7f7;
+    overflow-y: auto;
+}
+
+.message-wrapper {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+.bot.message-wrapper {
+    justify-content: flex-start;
+}
+
+.user.message-wrapper {
+    justify-content: flex-end;
+}
+
+.message {
+    max-width: 80%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    line-height: 1.4;
+}
+
+.bot .message {
+    background: #fff;
+    color: #333;
+}
+
+.user .message {
+    background: #8B4513;
+    color: #fff;
+}
+
+/* Transparent question buttons */
+.button-row {
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.sample-button {
+    background: transparent;
+    border: 1px solid #8B4513;
+    color: #8B4513;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.sample-button:hover {
+    background: #8B4513;
+    color: #fff;
+}
+
+/* Input area */
+#input-area {
+    display: flex;
+    border-top: 1px solid #e0e0e0;
+    padding: 0.5rem;
+}
+
+#input-area input {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+#input-area button {
+    background: #8B4513;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 0 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#input-area button:hover {
+    opacity: 0.9;
+}

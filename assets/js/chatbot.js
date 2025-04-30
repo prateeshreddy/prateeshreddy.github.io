@@ -1,53 +1,107 @@
+// assets/js/chatbot.js
 (async () => {
-  // Insert the chat container HTML
+  const QUESTIONS = [
+    "What is Prateesh currently working on at Toyota?",
+    "Which roles is Prateesh interested in?",
+    "What is Prateesh’s work authorization?"
+  ];
+
+  // 1. Inject the container
   const container = document.getElementById("chat-container");
   container.innerHTML = `
     <div id="chat">
+      <div id="chat-header">🤖 Ask About Prateesh</div>
       <div id="messages"></div>
-      <div id="samples">
-        Try:
-        <button data-q="What were Prateesh’s project at Toyota?">Toyota project?</button>
-        <button data-q="Which roles is Prateesh interested in?">Desired roles?</button>
-        <button data-q="What is Prateesh’s work authorization?">Work auth?</button>
+      <div id="input-area">
+        <input id="input" placeholder="Type a question…" />
+        <button id="send">Send</button>
       </div>
-      <input id="input" placeholder="Ask me about Prateesh…" />
-      <button id="send">Send</button>
-    </div>
-  `;
+    </div>`;
 
-  // Helper to append messages
-  const append = (cls, text) => {
-    const el = document.createElement("div");
-    el.className = cls;
-    el.textContent = text;
-    document.getElementById("messages").append(el);
-    document.getElementById("messages").scrollTop = 1e9;
-  };
+  const messagesEl = document.getElementById("messages");
 
-  // Send a user question to the Worker
-  async function send(q) {
-    append("user", q);
+  // 2. Render intro + buttons
+  function showIntro() {
+    messagesEl.innerHTML = "";
+
+    // Intro bubble
+    const introWrap = document.createElement("div");
+    introWrap.className = "bot message-wrapper";
+    const introMsg = document.createElement("div");
+    introMsg.className = "message";
+    introMsg.innerHTML = `
+      👋 Hi, I'm an intelligent AI Chatbot created by Prateesh.<br>
+      You can ask me anything about Prateesh.<br>
+      I'm kidding lol!<br>
+      I was told by Prateesh not to reveal his secrets but I can share about his work.<br><br>
+      Below are some questions you can ask me
+    `;
+    introWrap.appendChild(introMsg);
+    messagesEl.appendChild(introWrap);
+
+    // Button row (transparent style)
+    const btnRow = document.createElement("div");
+    btnRow.className = "bot message-wrapper button-row";
+    QUESTIONS.forEach(q => {
+      const btn = document.createElement("button");
+      btn.className = "sample-button";
+      btn.textContent = q;
+      btn.onclick = () => {
+        send(q);
+        btn.remove();
+      };
+      btnRow.appendChild(btn);
+    });
+    messagesEl.appendChild(btnRow);
+
+    messagesEl.scrollTop = 1e9;
+  }
+
+  // 3. Handle sending (buttons or input)
+  async function send(question) {
+    // 3a. Show user bubble
+    const uWrap = document.createElement("div");
+    uWrap.className = "user message-wrapper";
+    const uMsg = document.createElement("div");
+    uMsg.className = "message";
+    uMsg.textContent = question;
+    uWrap.appendChild(uMsg);
+    messagesEl.appendChild(uWrap);
+
+    // 3b. Call Worker
     const res = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: [{ role: "user", content: q }] })
+      body: JSON.stringify({ messages: [{ role: "user", content: question }] })
     });
     const { content } = await res.json();
-    append("bot", content);
+
+    // 3c. Show bot bubble
+    const bWrap = document.createElement("div");
+    bWrap.className = "bot message-wrapper";
+    const bMsg = document.createElement("div");
+    bMsg.className = "message";
+    bMsg.textContent = content;
+    bWrap.appendChild(bMsg);
+    messagesEl.appendChild(bWrap);
+
+    messagesEl.scrollTop = 1e9;
   }
 
-  // Wire up sample buttons
-  document.querySelectorAll("#samples button")
-    .forEach(btn => btn.onclick = () => send(btn.dataset.q));
+  // 4. Wire up the “Send” button + Enter key
+  document.getElementById("send").onclick = () => {
+    const q = document.getElementById("input").value.trim();
+    if (q) {
+      send(q);
+      document.getElementById("input").value = "";
+    }
+  };
+  document.getElementById("input").addEventListener("keypress", e => {
+    if (e.key === "Enter") {
+      document.getElementById("send").click();
+    }
+  });
 
-  // Wire up send button & Enter key
-  document.getElementById("send")
-    .onclick = () => {
-      const q = document.getElementById("input").value;
-      if (q) send(q);
-    };
-  document.getElementById("input")
-    .addEventListener("keypress", e => {
-      if (e.key === "Enter") send(e.target.value);
-    });
+  // 5. Show intro on load
+  showIntro();
 })();
