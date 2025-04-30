@@ -4,14 +4,13 @@ const WORKER_URL = "https://prateesh-chatbot-production.prateeshreddy99.workers.
 
 (async () => {
 const QUESTIONS = [
-  "What is Prateesh currently working on at Toyota?",
-  "Which roles is Prateesh interested in?",
-  "What is Prateesh’s work authorization?",
-  "Does Prateesh have experience with generative AI or LLMs?",
-  "Has Prateesh deployed ML models to production?",
-  "What cloud and MLOps tools has Prateesh used?",
-  "Does Prateesh have experience with optimization algorithms?",
-  "What types of problems is Prateesh best suited to solve?"
+    "Has Prateesh deployed ML models to production?",
+    "What is Prateesh currently working on at Toyota?",
+    "What is Prateesh’s work authorization?",
+    "Which roles is Prateesh interested in?",
+    "Does Prateesh have experience with Generative AI?",
+    "What cloud and MLOps tools has Prateesh used?",
+    "What types of problems is Prateesh best suited to solve?"
 ];
 
 
@@ -45,6 +44,7 @@ const QUESTIONS = [
     introMsg.innerHTML = `
       👋 Hi, I'm an intelligent AI Chatbot created by Prateesh.<br>
       You can ask me anything about Prateesh.<br>
+      <br>
       I'm kidding lol!<br>
       I was told by Prateesh not to reveal his secrets but I can share about his work.<br><br>
       Below are some questions you can ask me
@@ -65,7 +65,7 @@ const QUESTIONS = [
       btnRow.append(btn);
     });
     messagesEl.append(btnRow);
-    messagesEl.scrollTop = 1e9;
+    messagesEl.scrollTop = 0;   // start at the top so intro is visible
   }
 
   // Send user question → Worker → display bot answer

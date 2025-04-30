@@ -94,40 +94,43 @@
 }
 
 /* Question buttons */
+/* Reduce the gap between buttons so they sit closer together */
 .button-row {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.25rem;
+    /* shrink the vertical spacing */
     width: 100%;
     margin-top: 0.5rem;
 }
 
+/* Auto‐height buttons with proper wrapping */
 .sample-button {
     box-sizing: border-box;
     width: 100%;
-    display: block;
     background-color: transparent !important;
-    /* no fill */
     border: 1px solid #DEB887 !important;
-    /* brown border */
+    /* light brown border */
     color: #DEB887 !important;
-    /* brown text */
-    text-transform: lowercase !important;
+    /* light brown text */
     border-radius: 11px;
-    padding: 0.3rem 0.6rem;
+    text-transform: none !important;
+    padding: 0.4rem 0.6rem;
+    /* a bit more padding for legibility */
     cursor: pointer;
-    font-size: 12px !important;
-    /* shrink text */
-    font-family: inherit;
+    font-size: 0.8rem;
+    /* slightly smaller font */
+    line-height: 1.2;
+    /* tighter line height */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     white-space: normal;
+    /* allow wrapping */
     word-break: break-word;
-    overflow-wrap: break-word;
     text-align: center;
 }
 
 .sample-button:hover {
     background-color: #DEB887 !important;
-    /* keeps hover */
     color: #fff !important;
 }
 
