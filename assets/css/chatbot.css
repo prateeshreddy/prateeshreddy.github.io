@@ -13,12 +13,11 @@
 
 /* Chat container */
 #chat {
-    /* Desktop: 25% of viewport width, between 300px–480px */
+    /* 25% of viewport width, min 300px, max 480px */
     width: clamp(300px, 25vw, 480px);
     position: fixed;
     bottom: 1.5rem;
     left: 1.5rem;
-    /* moved to left */
     background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -29,7 +28,7 @@
     z-index: 9999;
 }
 
-/* Mobile: full width, flush to bottom, no rounding */
+/* Mobile: full width, flush edges */
 @media (max-width: 768px) {
     #chat {
         width: 100vw;
@@ -42,6 +41,7 @@
 /* Header */
 #chat-header {
     background: #8B4513;
+    /* chocolate brown */
     color: #fff;
     padding: 0.75rem;
     font-weight: 600;
@@ -57,6 +57,7 @@
     overflow-y: auto;
 }
 
+/* Bubble wrappers */
 .message-wrapper {
     display: flex;
     margin-bottom: 0.5rem;
@@ -70,10 +71,12 @@
     justify-content: flex-end;
 }
 
+/* Message bubbles */
 .message {
     max-width: 80%;
     padding: 0.5rem 0.75rem;
     border-radius: 16px;
+    /* fully rounded, iMessage style */
     line-height: 1.4;
     word-break: break-word;
 }
@@ -91,19 +94,23 @@
 /* Question buttons */
 .button-row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
 }
 
 .sample-button {
+    width: 100%;
     background: transparent;
     border: 1px solid #8B4513;
     color: #8B4513;
     border-radius: 16px;
-    padding: 0.4rem 0.8rem;
+    padding: 0.6rem 0.8rem;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     white-space: normal;
+    word-break: break-word;
     text-align: center;
 }
 
