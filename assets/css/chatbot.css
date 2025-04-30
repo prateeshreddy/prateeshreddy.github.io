@@ -99,7 +99,7 @@
     flex-direction: column;
     gap: 0.4rem;
     width: 100%;
-    margin-top: 0.3rem;
+    margin-top: 0.5rem;
 }
 
 .sample-button {
@@ -113,7 +113,7 @@
     color: #DEB887 !important;
     /* brown text */
     border-radius: 11px;
-    padding: 0.4rem 0.6rem;
+    padding: 0.3rem 0.6rem;
     cursor: pointer;
     font-size: 12px !important;
     /* shrink text */
