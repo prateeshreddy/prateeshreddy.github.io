@@ -69,7 +69,7 @@
     messagesEl.appendChild(uWrap);
 
     // 3b. Call Worker
-    const res = await fetch("/chat", {
+    const res = await fetch("https://prateesh-chatbot-production.prateeshreddy99.workers.dev", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ messages: [{ role: "user", content: question }] })
