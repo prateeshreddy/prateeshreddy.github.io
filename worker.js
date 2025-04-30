@@ -79,7 +79,7 @@ export default {
 
     //––– 2) RAG fallback (unchanged embedding + chat logic)
     try {
-      const RESUME_URL = "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/feature/chatbot/resume.md";
+      const RESUME_URL = "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/main/resume.md";
       const md = await (await fetch(RESUME_URL)).text();
       const chunks = chunkText(md);
 

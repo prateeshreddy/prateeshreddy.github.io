@@ -8,7 +8,7 @@ const QUESTIONS = [
     "What is Prateesh currently working on at Toyota?",
     "What is Prateesh’s work authorization?",
     "Which roles is Prateesh interested in?",
-    "Does Prateesh have experience with Generative AI?",
+    "Does Prateesh have experience with Generative AI or LLMs?",
     "What cloud and MLOps tools has Prateesh used?",
     "What types of problems is Prateesh best suited to solve?"
 ];
