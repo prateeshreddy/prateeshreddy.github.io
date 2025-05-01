@@ -126,7 +126,7 @@ Use ONLY the following context from his résumé:
 ${top}
 
 If asked anything outside this context, reply:
-"Sorry, I only answer questions about Prateesh's work.Please download his resume [here](https://prateeshreddy.github.io/Files/CV.pdf)"
+"Sorry, I only answer questions about Prateesh's work. Please download resume from the homepage."
 `.trim();
 
       res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -148,7 +148,7 @@ If asked anything outside this context, reply:
       const content = js.choices?.[0]?.message?.content || "Sorry, I couldn’t generate a response.";
 
       // Log out-of-scope questions to your Google Sheet
-      const OOS_TEXT = "Sorry, I only answer questions about Prateesh's work. Please download his resume here";;
+      const OOS_TEXT = "Sorry, I only answer questions about Prateesh's work. Please download resume from the homepage.";
       if (content === OOS_TEXT) {
         fetch(UNANSWERED_WEBHOOK, {
           method: "POST",
