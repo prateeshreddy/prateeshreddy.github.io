@@ -149,6 +149,7 @@ If asked anything outside this context, reply:
 
       // Log out-of-scope questions to your Google Sheet
       const OOS_TEXT = "Sorry, I only answer questions about Prateesh's work. Please download resume from the homepage.";
+
       if (content === OOS_TEXT) {
         fetch(UNANSWERED_WEBHOOK, {
           method: "POST",
