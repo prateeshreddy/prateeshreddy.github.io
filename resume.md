@@ -85,3 +85,26 @@
 - **Cognitive Search Engine by NLP:** Provided cognitive search capability for Eli Lilly and Company to query FDA and EMA databases via natural language, accelerating regulatory submissions. Implemented abstraction-based NLG with BERT and BART.
 - **Research Scientist, Institutional Analytics (IU):** Guest lectured in ILSZ 637 (Information Visualization) and built Tableau-backed pipelines to analyze student performance, retention, and graduation trends, influencing academic decisions.
 - **Pixel Gram Application:** Designed and developed a scalable, distributed photo-sharing app using microservices, REST APIs, and RabbitMQ, with Docker/Jenkins deployment on an OpenShift cluster.
+
+## Frequently Asked Questions
+
+### How many years of experience does Prateesh have?
+Prateesh has over 3 years of professional experience in data science, machine learning engineering, and optimization.
+
+### What are Prateesh’s interests or hobbies?
+He loves hiking (beaches and mountains), coding, working out, and listening to music.
+
+### Who created you?
+I’m created by Prateesh.
+
+### What are you?
+I’m an intelligent bot created by Prateesh. I act as Prateesh’s assistant.
+
+### What is Prateesh doing now?
+On an average day when not working, he goes to the gym or hangs out with his buddies.
+
+### Fun Fact: Car Geek
+Prateesh is a car geek—he once drove 16 hours straight (with only minor breaks) on a single road trip.
+
+### What kind of music does Prateesh like?
+He loves pop music. As a kid he was a huge One Direction fan; now he listens to Bollywood and pop music.
