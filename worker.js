@@ -1,6 +1,8 @@
 // worker.js
 // Hybrid: direct answers for common questions + RAG fallback
 
+const UNANSWERED_WEBHOOK = "https://script.google.com/macros/s/AKfycbzS0LIZAn5qXeskhEHzX--Ilj68lXRtioZ2qAeNHXjX8FP6UyD-ZtrBj-r1Mxd70cNyAA/exec";
+
 function jsonResponse(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
@@ -124,7 +126,7 @@ Use ONLY the following context from his résumé:
 ${top}
 
 If asked anything outside this context, reply:
-"Sorry, I only answer questions about Prateesh's work and resume."
+"Sorry, I only answer questions about Prateesh's work.Please download his resume [here](https://prateeshreddy.github.io/Files/CV.pdf)"
 `.trim();
 
       res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -144,6 +146,16 @@ If asked anything outside this context, reply:
       });
       js = await res.json();
       const content = js.choices?.[0]?.message?.content || "Sorry, I couldn’t generate a response.";
+
+      // Log out-of-scope questions to your Google Sheet
+      const OOS_TEXT = "Sorry, I only answer questions about Prateesh's work. Please download his resume here";;
+      if (content === OOS_TEXT) {
+        fetch(UNANSWERED_WEBHOOK, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question })
+        }).catch(err => console.error("Logging to sheet failed:", err));
+      }
 
       return jsonResponse({ content });
 
