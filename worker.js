@@ -126,7 +126,7 @@ Use ONLY the following context from his résumé:
 ${top}
 
 If asked anything outside this context, reply:
-"Sorry, I only answer questions about Prateesh's work. Please download resume from the homepage."
+"Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!"
 `.trim();
 
       res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -148,15 +148,18 @@ If asked anything outside this context, reply:
       const content = js.choices?.[0]?.message?.content || "Sorry, I couldn’t generate a response.";
 
       // Log out-of-scope questions to your Google Sheet
-      const OOS_TEXT = "Sorry, I only answer questions about Prateesh's work. Please download resume from the homepage.";
+      const OOS_TEXT = "Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!";
       if (content === OOS_TEXT) {
-        fetch(UNANSWERED_WEBHOOK, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question })
-        })
-        .then(res => console.log("✅ Logged OOS question to sheet:", question, "→ status", res.status))
-        .catch(err => console.error("❌ Logging to sheet failed:", err));
+        try {
+          const logRes = await fetch(UNANSWERED_WEBHOOK, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question })
+          });
+          console.log("✅ Logged OOS question:", question, "sheet status:", logRes.status);
+        } catch (err) {
+          console.error("❌ Failed to log to sheet:", err);
+        }
       }
 
       return jsonResponse({ content });
