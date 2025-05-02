@@ -30,6 +30,9 @@ function directAnswer(question) {
 
     "does prateesh have experience with generative ai or llms?":
       `Yes. Prateesh built an internal Generative AI assistant at Toyota called 'AskToyota' using retrieval-augmented generation (RAG), FAISS vector stores, and self-hosted LLaMA2. He orchestrated the solution with LangChain and deployed it internally using Docker, FastAPI, and AWS infrastructure.`,
+    
+    "does he have experience in generative ai?":
+      `Yes. Prateesh built an internal Generative AI assistant at Toyota called 'AskToyota' using retrieval-augmented generation (RAG), FAISS vector stores, and self-hosted LLaMA2. He orchestrated the solution with LangChain and deployed it internally using Docker, FastAPI, and AWS infrastructure.`,
 
     "has prateesh deployed ml models to production?":
       `Yes. He has built and deployed production-grade ML pipelines using SageMaker, Airflow, and CloudWatch. These pipelines support monthly forecasting and optimization runs at Toyota and are fully automated with monitoring, retraining, and data integrity checks.`,
