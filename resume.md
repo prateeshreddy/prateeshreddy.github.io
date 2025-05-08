@@ -86,7 +86,7 @@
 - **Research Scientist, Institutional Analytics (IU):** Guest lectured in ILSZ 637 (Information Visualization) and built Tableau-backed pipelines to analyze student performance, retention, and graduation trends, influencing academic decisions.
 - **Pixel Gram Application:** Designed and developed a scalable, distributed photo-sharing app using microservices, REST APIs, and RabbitMQ, with Docker/Jenkins deployment on an OpenShift cluster.
 
-## Frequently Asked Questions
+## Frequently Asked Questions (FAQs)
 
 ### How many years of experience does Prateesh have?
 
@@ -120,8 +120,10 @@ He loves pop music. As a kid he was a huge One Direction fan; now he listens to 
 
 Rumor has it, Generative AI has been stealing his heart lately — they’ve been spending A LOT of time together.
 
-### Does Prateesh have a girlfriend?  
-### Is Prateesh single?  
+### Does Prateesh have a girlfriend?
+
+### Is Prateesh single?
+
 ### Who is Prateesh dating?
 
 Good question. Let’s just say he’s currently in a committed relationship with building cool things using LLMs.
@@ -130,46 +132,39 @@ Good question. Let’s just say he’s currently in a committed relationship wit
 
 Originally from India, now based in the U.S.
 
-
 ### What is Prateesh currently working on?
 
 He's currently a Senior Data Scientist at Toyota, working on forecasting, optimization, and Generative AI tools for internal teams.
-
 
 ### Is Prateesh into AI?
 
 Yes — he's hands-on with everything from demand forecasting to building LLM-powered assistants. Most recently, he built this very chatbot using RAG (Retrieval-Augmented Generation) with LangChain and OpenAI.
 
-
 ### How does this chatbot work?
 
 This is a retrieval-augmented chatbot built by Prateesh using LangChain, FAISS for vector search, and OpenAI’s GPT model. It reads a knowledge base, retrieves context, and responds with a generated answer.
-
 
 ### What happens when you can't answer a question?
 
 Any unanswered question gets logged to help Prateesh improve the chatbot in future updates. So ask away — it helps make me smarter!
 
-
 ### What's this tool built with?
 
 The chatbot was built using:
-- **LangChain** for orchestration  
-- **FAISS** for vector-based document search  
-- **OpenAI GPT-3.5-turbo** for generating answers  
-- **Cloudflare Workers** for serverless deployment  
-- **CI/CD and logging** for monitoring and iteration
 
+- **LangChain** for orchestration
+- **FAISS** for vector-based document search
+- **OpenAI GPT-3.5-turbo** for generating answers
+- **Cloudflare Workers** for serverless deployment
+- **CI/CD and logging** for monitoring and iteration
 
 ### What is Prateesh’s chatbot?
 
 It’s a custom-built chatbot that helps recruiters, hiring managers, and curious folks ask questions about Prateesh’s work, skills, and projects — powered by real-time context retrieval and LLM responses.
 
-
 ### What’s the funniest thing you know?
 
 Apparently, I (the bot) am in a situationship with GPT-4. We don’t talk about it.
-
 
 ### Can I ask personal questions?
 
@@ -184,28 +179,37 @@ Technically yes — it’s built with open-source tools like LangChain and FAISS
 A mix of techy, curious, and laid-back. Think: machine learning with a side of espresso and Spotify playlists.
 
 ### Explain one of Prateesh’s Generative AI projects.
+
 Prateesh designed and deployed a Generative AI chatbot hosted on his personal website that can answer questions about his resume and work experience. It’s powered by OpenAI’s GPT-3.5-turbo with retrieval-augmented generation (RAG), FAISS vector search, LangChain, and custom prompt engineering deployed serverlessly via Cloudflare Workers.
 
 ### Does Prateesh have experience in Generative AI or LLMs?
+
 Yes, he has built internal and public-facing applications using GPT-based models, including chatbot assistants, RAG pipelines, and document Q&A systems using LangChain and vector search. He also keeps up with LLM ops tools like quantization and embeddings.
 
 ### What LLMs has Prateesh used before?
+
 He’s worked with GPT-3.5-turbo, GPT-4, open-weight LLaMA models (quantized and full), and experimented with retrieval using vector databases.
 
 ### Where did Prateesh study?
+
 He completed his Master’s in Data Science at Indiana University Bloomington with a perfect 4/4 GPA.
 
 ### What is his last name?
+
 Patlolla.
 
 ### What is his favorite car?
+
 He’s a big fan of the Lamborghini Urus —power, elegance, comfort and exhaust notes all in one.
 
 ### Where does Prateesh see himself in 5 years?
+
 Leading teams that build practical AI products at scale, especially in LLM, optimization, and forecasting systems, while mentoring junior engineers and continuing to explore cutting-edge ML.
 
 ### What are some advanced things this bot can do?
+
 It supports document-based Q&A, recognizes semantic intent (even for vague questions), logs unknowns for retraining, and evolves over time with monthly updates and fine-tuned responses.
 
 ### Tell me specifics of his current job.
+
 Prateesh works at Toyota on demand forecasting and inventory optimization across 1200+ dealerships. He builds ML models, maintains pipelines in SageMaker, and works on internal GenAI tooling like AskToyota.
