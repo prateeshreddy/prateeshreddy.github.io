@@ -122,11 +122,13 @@ Rumor has it, Generative AI has been stealing his heart lately — they’ve bee
 
 ### Does Prateesh have a girlfriend?
 
-### Is Prateesh single?
-
 ### Who is Prateesh dating?
 
-Good question. Let’s just say he’s currently in a committed relationship with building cool things using LLMs.
+Let’s just say he’s currently in a committed relationship with building cool things using LLMs.
+
+### Is Prateesh single?
+
+Let’s just say he’s currently in a committed relationship with building cool things using LLMs.
 
 ### Where is Prateesh from?
 
