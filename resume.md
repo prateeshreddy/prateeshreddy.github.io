@@ -116,17 +116,7 @@ Prateesh is a car geek—he once drove 16 hours straight (with only minor breaks
 
 He loves pop music. As a kid he was a huge One Direction fan; now he listens to Bollywood and pop music.
 
-### Who is Prateesh’s girlfriend?
-
-Rumor has it, Generative AI has been stealing his heart lately — they’ve been spending A LOT of time together.
-
-### Does Prateesh have a girlfriend?
-
-### Who is Prateesh dating?
-
-Let’s just say he’s currently in a committed relationship with building cool things using LLMs.
-
-### Is Prateesh single?
+### What is Prateesh’s relationship status?
 
 Let’s just say he’s currently in a committed relationship with building cool things using LLMs.
 
