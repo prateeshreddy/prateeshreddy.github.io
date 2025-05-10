@@ -1,16 +1,7 @@
-name               = "prateesh-chatbot"
-main               = "worker.js"
+name = "prateesh-chatbot"
+main = "worker.js"
 compatibility_date = "2025-04-29"
-account_id         = "d22786616b3f0f55cf40ceca134e2bcb"
-
-# tell Wrangler to bundle as an ES module
-[build]
-upload_format = "modules"
-
-# register the YAML loader plugin
-[[build.plugins]]
-package = "esbuild-plugin-yaml"
+account_id = "d22786616b3f0f55cf40ceca134e2bcb"
 
 [env.production]
 workers_dev = true
-# (any other per-env overrides here)

@@ -1,4 +1,4 @@
-import parameters from "./parameters.yml";
+import parameters from "./parameters.json";
 
 const {
   resume_url,
