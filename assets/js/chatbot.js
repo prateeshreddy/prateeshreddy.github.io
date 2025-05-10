@@ -45,7 +45,7 @@ const WORKER_URL =
       👋 Hi, I'm an intelligent AI Chatbot created by Prateesh.<br>
       You can ask me anything about Prateesh.<br>
       <br>
-      🤫 I'm kidding, I’ve been sworn to secrecy on some of his deep secrets—so stick to questions about his work and projects.<br><br>
+      🤫 I'm kidding, I’ve been sworn to secrecy on some of his deep secrets<br><br>
       💡 Here are some ideas to get you started:
     `;
     introWrap.append(introMsg);
