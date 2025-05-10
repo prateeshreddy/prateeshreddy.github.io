@@ -1,0 +1,11 @@
+{
+  "resume_url": "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/main/resume.md",
+  "unanswered_webhook": "https://script.google.com/macros/s/AKfycbzS0LIZAn5qXeskhEHzX--Ilj68lXRtioZ2qAeNHXjX8FP6UyD-ZtrBj-r1Mxd70cNyAA/exec",
+  "rag_strategy": "hybrid",
+  "top_k": 3,
+  "similarity_threshold": 0.3,
+  "embedding_model": "text-embedding-ada-002",
+  "chat_model": "gpt-3.5-turbo",
+  "temperature": 0.0,
+  "oos_text": "Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!"
+}
