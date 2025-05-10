@@ -4,6 +4,8 @@ compatibility_date = "2025-04-29"
 account_id = "d22786616b3f0f55cf40ceca134e2bcb"
 
 [env.production]
-# Deploy to workers.dev subdomain (no DNS changes needed):
 workers_dev = true
-# route = "prateeshreddy.github.io/chat"
+
+[env.staging]
+workers_dev = true
+route = ""  # Use the workers.dev subdomain

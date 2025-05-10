@@ -1,5 +1,9 @@
 {
   "devDependencies": {
+    "esbuild-plugin-yaml": "^0.0.1",
     "prettier": "3.5.3"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
   }
 }

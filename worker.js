@@ -1,8 +1,16 @@
-// worker.js
-// Hybrid: direct answers for common questions + RAG fallback
+import parameters from "./parameters.js";
 
-const UNANSWERED_WEBHOOK =
-  "https://script.google.com/macros/s/AKfycbzS0LIZAn5qXeskhEHzX--Ilj68lXRtioZ2qAeNHXjX8FP6UyD-ZtrBj-r1Mxd70cNyAA/exec";
+const {
+  resume_url,
+  unanswered_webhook,
+  rag_strategy,
+  top_k,
+  similarity_threshold,
+  embedding_model,
+  chat_model,
+  temperature,
+  oos_text,
+} = parameters;
 
 function jsonResponse(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
@@ -41,7 +49,6 @@ function directAnswer(question) {
   return map[q] || null;
 }
 
-// 2) Cosine similarity & chunking for RAG fallback
 function cosine(a, b) {
   let dot = 0,
     nA = 0,
@@ -53,9 +60,12 @@ function cosine(a, b) {
   }
   return dot / (Math.sqrt(nA) * Math.sqrt(nB));
 }
+
 function chunkText(md) {
-  const parts = md.split(/^### /m).slice(1);
-  return parts.map((p) => "### " + p.trim());
+  return md
+    .split(/^### /m)
+    .slice(1)
+    .map((p) => "### " + p.trim());
 }
 
 export default {
@@ -76,74 +86,78 @@ export default {
     const { messages } = await request.json();
     const question = messages[messages.length - 1].content;
 
-    //––– 1) Try direct mapping
+    // 1) direct‐map
     const direct = directAnswer(question);
-    if (direct) {
-      return jsonResponse({ content: direct });
-    }
+    if (direct) return jsonResponse({ content: direct });
 
-    //––– 2) RAG fallback (unchanged embedding + chat logic)
+    // 2) RAG fallback
     try {
-      const RESUME_URL =
-        "https://raw.githubusercontent.com/prateeshreddy/prateeshreddy.github.io/main/resume.md";
-      const md = await (await fetch(RESUME_URL)).text();
+      const md = await (await fetch(resume_url)).text();
       const chunks = chunkText(md);
 
       // embed chunks
+      const emBody = JSON.stringify({ model: embedding_model, input: chunks });
       let res = await fetch("https://api.openai.com/v1/embeddings", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          model: "text-embedding-ada-002",
-          input: chunks,
-        }),
+        body: emBody,
       });
       let js = await res.json();
       if (!res.ok || !Array.isArray(js.data))
-        throw new Error(js.error?.message || "Chunk embed failed");
+        throw new Error("Chunk embed failed");
       const indexed = chunks.map((t, i) => ({
         text: t,
         vec: js.data[i].embedding,
       }));
 
-      // embed query
+      // embed the query
       res = await fetch("https://api.openai.com/v1/embeddings", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${env.OPENAI_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          model: "text-embedding-ada-002",
-          input: [question],
-        }),
+        body: JSON.stringify({ model: embedding_model, input: [question] }),
       });
       js = await res.json();
       if (!res.ok || !Array.isArray(js.data))
-        throw new Error(js.error?.message || "Query embed failed");
+        throw new Error("Query embed failed");
       const qVec = js.data[0].embedding;
 
-      // retrieve top 3
-      const top = indexed
+      // pick top‐K
+      const scored = indexed
         .map((c) => ({ ...c, score: cosine(qVec, c.vec) }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3)
-        .map((c) => c.text)
-        .join("\n\n");
+        .sort((a, b) => b.score - a.score);
 
-      // chat completion
+      let context = "";
+      if (
+        rag_strategy === "full" ||
+        (rag_strategy === "hybrid" && scored[0].score < similarity_threshold)
+      ) {
+        // full: include entire md
+        context = md;
+      } else {
+        // hybrid/search_only
+        context = scored
+          .slice(0, top_k)
+          .map((c) => c.text)
+          .join("\n\n");
+      }
+
+      // build system prompt including both resume and FAQ context
       const system = `
 You are an assistant that ONLY answers questions about Prateesh Reddy Patlolla.
-Use ONLY the following context from his résumé:
-${top}
+Use ONLY the following context from his résumé and Frequently Asked Questions (FAQs):
+${context}
 
-If asked anything outside this context, reply:
+If asked anything outside this context, reply exactly:
 "Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!"
 `.trim();
 
+      // chat completion
       res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -151,38 +165,24 @@ If asked anything outside this context, reply:
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "gpt-3.5-turbo",
+          model: chat_model,
           messages: [
             { role: "system", content: system },
             { role: "user", content: question },
           ],
-          temperature: 0.0,
+          temperature: temperature,
         }),
       });
       js = await res.json();
-      const content =
-        js.choices?.[0]?.message?.content ||
-        "Sorry, I couldn’t generate a response.";
+      const content = js.choices?.[0]?.message?.content ?? oos_text;
 
       // Log out-of-scope questions to your Google Sheet
-      const OOS_TEXT =
-        "Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!";
-      if (content === OOS_TEXT) {
-        try {
-          const logRes = await fetch(UNANSWERED_WEBHOOK, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question }),
-          });
-          console.log(
-            "✅ Logged OOS question:",
-            question,
-            "sheet status:",
-            logRes.status,
-          );
-        } catch (err) {
-          console.error("❌ Failed to log to sheet:", err);
-        }
+      if (content === oos_text) {
+        fetch(unanswered_webhook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        }).catch((e) => console.error("Logging failed:", e));
       }
 
       return jsonResponse({ content });
