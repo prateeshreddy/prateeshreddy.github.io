@@ -1,4 +1,4 @@
-import parameters from "./parameters.json";
+import parameters from "./parameters.js";
 
 const {
   resume_url,
