@@ -22,13 +22,13 @@ export default {
   rag_strategy: 'hybrid',
 
   /** How many highest-scoring chunks to include when hybrid RAG is enabled */
-  top_k: 5,
+  top_k: 10,
 
   /**
    * If the best chunk’s similarity score < this threshold,
    * fall back to full-context mode instead.
    */
-  similarity_threshold: 0.3,
+  similarity_threshold: 0.1,
 
 
   // ——————————————————————————————————————————————
