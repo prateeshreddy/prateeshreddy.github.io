@@ -158,8 +158,13 @@ If asked anything outside this context, reply exactly:
       js = await res.json();
       const content = js.choices?.[0]?.message?.content ?? oos_text;
 
+      const normalized = txt =>
+        txt
+          .trim()
+          .replace(/\s+/g, " ");            // collapse all whitespace
+
       // Log out-of-scope questions to your Google Sheet
-      if (content === oos_text) {
+      if (normalized(content) === normalized(oos_text)) {
         fetch(unanswered_webhook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
