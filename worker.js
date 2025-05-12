@@ -28,7 +28,7 @@ function jsonResponse(obj, status = 200) {
 // 1) Direct‐mapping lookup for your eight questions
 function directAnswer(question) {
   const q = question.toLowerCase().trim();
-  return direct_answers[key] || null;
+  return direct_answers[q] || null;
 }
 
 function cosine(a, b) {
