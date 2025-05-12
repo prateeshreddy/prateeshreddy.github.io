@@ -27,7 +27,11 @@ function jsonResponse(obj, status = 200) {
 
 // 1) Direct‐mapping lookup for your eight questions
 function directAnswer(question) {
-  const q = question.toLowerCase().trim();
+  const key = q
+  .toLowerCase()
+  .replace(/[^\w ]+/g, "")   // strip punctuation
+  .replace(/\s+/g, " ")      // collapse spaces
+  .trim();
   return direct_answers[q] || null;
 }
 
