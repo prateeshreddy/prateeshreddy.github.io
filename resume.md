@@ -1,4 +1,4 @@
-# Prateesh Reddy Patlolla
+# Full Name: Prateesh Reddy Patlolla
 
 **Senior Data Scientist & Machine Learning Engineer**
 
