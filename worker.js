@@ -154,7 +154,7 @@ Use ONLY the following context from his résumé and Frequently Asked Questions 
 ${context}
 
 If asked anything outside this context, reply exactly:
-"Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!"
+"${oos_text}"
 `.trim();
 
       // chat completion
