@@ -1,4 +1,4 @@
-# Full Name: Prateesh Reddy Patlolla
+# Prateesh Reddy Patlolla
 
 **Senior Data Scientist & Machine Learning Engineer**
 
@@ -123,6 +123,10 @@ Let’s just say he’s currently in a committed relationship with building cool
 ### Where is Prateesh from?
 
 Originally from India, now based in the U.S.
+
+### What is Prateesh’s full name.
+
+Prateesh’s full name is **Prateesh Reddy Patlolla**.
 
 ### What is Prateesh currently working on?
 
