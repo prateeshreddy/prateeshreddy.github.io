@@ -5,7 +5,7 @@ export default {
   unanswered_webhook: 'https://script.google.com/macros/s/AKfycbzS0LIZAn5qXeskhEHzX--Ilj68lXRtioZ2qAeNHXjX8FP6UyD-ZtrBj-r1Mxd70cNyAA/exec',
 
   // RAG behavior: "full" or "hybrid" context window
-  rag_strategy: 'hybrid',
+  rag_strategy: 'full',
 
   // How many top chunks to include for Hybrid strategy
   top_k: 5,

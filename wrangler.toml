@@ -8,4 +8,3 @@ workers_dev = true
 
 [env.staging]
 workers_dev = true
-route = ""  # Use the workers.dev subdomain
