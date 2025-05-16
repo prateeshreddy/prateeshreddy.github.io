@@ -154,7 +154,7 @@ Use ONLY the following context from his résumé and Frequently Asked Questions 
 ${context}
 
 If asked anything outside this context, reply exactly:
-"Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!"
+${oos_text}
 `.trim();
 
       // chat completion
@@ -178,17 +178,28 @@ If asked anything outside this context, reply exactly:
 
       // Log out-of-scope questions to your Google Sheet
       if (content === oos_text) {
-        fetch(unanswered_webhook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question }),
-        }).catch((e) => console.error("Logging failed:", e));
+        try {
+          const logRes = await fetch(unanswered_webhook, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question }),
+          });
+          console.log(
+            "✅ Logged OOS question to sheet:",
+            question,
+            "→ status",
+            logRes.status,
+            logRes.statusText
+          );
+        } catch (e) {
+          console.error("❌ Logging to sheet failed:", e);
+        }
       }
 
       return jsonResponse({ content });
     } catch (err) {
       console.error("RAG error:", err);
-      return jsonResponse({ content: "Sorry, something went wrong." }, 500);
+      return jsonResponse({ content: "Sorry, something went wrong. Let me ask Prateesh! Please download his resume" }, 500);
     }
   },
 };
