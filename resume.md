@@ -124,6 +124,10 @@ Let’s just say he’s currently in a committed relationship with building cool
 
 Originally from India, now based in the U.S.
 
+### What is Prateesh’s full name.
+
+Prateesh’s full name is **Prateesh Reddy Patlolla**.
+
 ### What is Prateesh currently working on?
 
 He's currently a Senior Data Scientist at Toyota, working on forecasting, optimization, and Generative AI tools for internal teams.

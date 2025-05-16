@@ -10,6 +10,7 @@ const {
   chat_model,
   temperature,
   oos_text,
+  direct_answers
 } = parameters;
 
 function jsonResponse(obj, status = 200) {
@@ -26,27 +27,12 @@ function jsonResponse(obj, status = 200) {
 
 // 1) Direct‐mapping lookup for your eight questions
 function directAnswer(question) {
-  const q = question.toLowerCase().trim();
-  const map = {
-    "what is prateesh currently working on at toyota?": `At Toyota, Prateesh is leading the development of predictive scheduling and production planning models using linear programming and machine learning to optimize monthly vehicle builds across 1200+ dealerships. He also developed a GenAI-powered assistant ('AskToyota') using LLaMA2 and LangChain to surface forecasting documentation and improve decision-making across business units.`,
-
-    "which roles is prateesh interested in?": `Senior-level roles in Data Science, Machine Learning Engineering, Applied Science, or Solutions Engineering. Open to in-person or hybrid roles across the U.S., with a strong preference for positions that emphasize applied GenAI, LLM systems, or scalable ML infrastructure.`,
-
-    "what is prateesh’s work authorization?": `Currently holds an H-1B visa and is open to H-1B transfer. Eligible for full-time employment in the U.S. without work restrictions.`,
-
-    "does prateesh have experience with generative ai or llms?": `Yes. Prateesh built an internal Generative AI assistant at Toyota called 'AskToyota' using retrieval-augmented generation (RAG), FAISS vector stores, and self-hosted LLaMA2. He orchestrated the solution with LangChain and deployed it internally using Docker, FastAPI, and AWS infrastructure.`,
-
-    "does he have experience in generative ai?": `Yes. Prateesh built an internal Generative AI assistant at Toyota called 'AskToyota' using retrieval-augmented generation (RAG), FAISS vector stores, and self-hosted LLaMA2. He orchestrated the solution with LangChain and deployed it internally using Docker, FastAPI, and AWS infrastructure.`,
-
-    "has prateesh deployed ml models to production?": `Yes. He has built and deployed production-grade ML pipelines using SageMaker, Airflow, and CloudWatch. These pipelines support monthly forecasting and optimization runs at Toyota and are fully automated with monitoring, retraining, and data integrity checks.`,
-
-    "what cloud and mlops tools has prateesh used?": `AWS (SageMaker, EC2, S3, CloudWatch), Azure, Docker, FastAPI, Airflow, GitHub Actions, Jenkins. Skilled in CI/CD pipelines, data validation, scalable deployments, and real-time monitoring.`,
-
-    "does prateesh have experience with optimization algorithms?": `Yes. At Toyota, he implemented constrained linear programming using GurobiPy to solve supply chain and production allocation problems at scale, improving plant throughput and reducing inventory mismatches.`,
-
-    "what types of problems is prateesh best suited to solve?": `Complex forecasting, production planning, demand modeling, Generative AI applications, optimization problems, and ML system deployment — especially those requiring cross-functional collaboration and scalability.`,
-  };
-  return map[q] || null;
+  const q = question
+  .toLowerCase()
+  .replace(/[^\w ]+/g, "")   // strip punctuation
+  .replace(/\s+/g, " ")      // collapse spaces
+  .trim();
+  return direct_answers[q] || null;
 }
 
 function cosine(a, b) {
@@ -154,7 +140,7 @@ Use ONLY the following context from his résumé and Frequently Asked Questions 
 ${context}
 
 If asked anything outside this context, reply exactly:
-"Yikes 😅 I’m still in training on that one! I only know about Prateesh and his work stuff, but I’ll bug him for you and learn it next time. For now, grab his resume from the homepage!"
+"${oos_text}"
 `.trim();
 
       // chat completion
@@ -176,8 +162,13 @@ If asked anything outside this context, reply exactly:
       js = await res.json();
       const content = js.choices?.[0]?.message?.content ?? oos_text;
 
+      const normalized = txt =>
+        txt
+          .trim()
+          .replace(/\s+/g, " ");            // collapse all whitespace
+
       // Log out-of-scope questions to your Google Sheet
-      if (content === oos_text) {
+      if (normalized(content) === normalized(oos_text)) {
         fetch(unanswered_webhook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
