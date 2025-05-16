@@ -2,6 +2,8 @@
 
 _A Cloudflare-Workers–powered Retrieval-Augmented Generation (RAG) chatbot that answers questions about Prateesh Reddy Patlolla’s work and projects._
 
+### Find it here : https://prateeshreddy.github.io
+
 <img width="495" alt="image" src="https://github.com/user-attachments/assets/39473ea3-2494-4a15-82a9-e6137a50299c" />
 
 
