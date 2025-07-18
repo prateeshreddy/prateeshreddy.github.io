@@ -96,6 +96,29 @@ video {
   vertical-align: baseline;
 }
 
+/* Floating profile picture */
+#profile-pic {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  transition:
+    width 0.5s ease,
+    height 0.5s ease,
+    top 0.5s ease,
+    right 0.5s ease;
+  z-index: 1000;
+}
+
+#profile-pic.shrink {
+  width: 80px;
+  height: 80px;
+  top: 20px;
+  right: 20px;
+}
+
 article,
 aside,
 details,
