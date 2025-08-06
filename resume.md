@@ -6,23 +6,32 @@
 
 - Email: patlollaprateesh@gmail.com
 - Phone number: +1 (650) 474-5593
+- Linkedin: https://www.linkedin.com/in/prateeshreddy
 
 ---
 
 ## Summary
 
-- Experienced Data Scientist and Machine Learning Engineer with 3+ years building real-time ML and optimization solutions in supply chain, production planning, and forecasting environments. Skilled in managing the full ML lifecycle from experimentation to production deployment at scale using AWS, Spark, and MLOps practices.
-- Proven expertise in targeting strategies, demand forecasting, statistical modeling, optimization, and building GenAI applications within large-scale enterprise environments. Adept at developing scalable ML pipelines, deploying LLM-driven solutions using LangChain and FAISS, applying explainable AI techniques, and optimizing data workflows across Redshift, PySpark, and big data ecosystems.
+- Machine Learning Engineer with 4+ years of experience delivering GenAI, NLP, Forecasting, and Optimization solutions at
+  scale. Built cloud-native ML systems using AWS, Azure, Spark, and MLOps tools from experimentation to deployment.
+  Delivered high-impact products including LLM-powered RAG assistants (LangChain, FAISS, LangGraph, OpenAgents,
+  Bedrock), Gurobi-based production optimizers, and real-time APIs for cross-functional teams. Skilled in A/B testing, Causal
+  inference, and Stakeholder-facing experimentation, with a track record of driving measurable ROI across enterprise
+  environments.
 
 ## Skills
 
 - **Languages:** Python, SQL, R, Java, JavaScript, SAS
-- **Big Data & Distributed Computing:** Apache Spark, Hadoop, PySpark, Hive
-- **Cloud & MLOps:** AWS (SageMaker, Glue, Redshift), Azure, Docker (model deployment), FastAPI (API serving), CI/CD with Airflow, Jenkins, GitHub Actions
-- **Databases & Data Warehousing:** Oracle DB, Redshift, PostgreSQL, MySQL, SQL Server, MongoDB
-- **Visualization & BI Tools:** Tableau, Power BI, AWS QuickSight
-- **Machine Learning & Modeling:** Scikit-learn, XGBoost, PyTorch, SHAP, A/B Testing, Causal Inference
-- **Operating Systems:** Windows, Linux
+- **Languages:** Python, SQL, R, Java, JavaScript
+- **Big Data & Pipelines:** Apache Spark, PySpark, Hadoop, Hive, Parquet, AWS Kinesis, Kinesis Firehose, Glue
+- \*\*Cloud & MLOps: AWS (SageMaker, Bedrock, Redshift, Lambda, CloudWatch), Azure (incl. Azure OpenAI), Docker,
+  Kubernetes, Airflow, Jenkins, FastAPI, GitHub Actions, VPC Networking
+- **GenAI & LLMs:** LangChain, LangGraph, OpenAgents, Guardrails AI, Llama 2, GPT-4, Prompt Engineering, Vector
+  DBs (FAISS, Pinecone, Chroma), LLMOps tools (PromptLayer, TruLens)
+- **Databases & Storage:** Redis (ElastiCache), DynamoDB, PostgreSQL, Oracle, Redshift, MongoDB
+- **Analytics & BI:** Tableau, Power BI, AWS QuickSight
+- **Modeling & Optimization:** Scikit-learn, XGBoost, SARIMAX, PyTorch, SHAP, Gurobi, A/B Testing, Causal Inference
+- **Monitoring:** CloudWatch, Datadog, Sagemaker Model Monitor, Azure Monitor
 
 ## Experience
 
@@ -30,21 +39,34 @@
 
 **Senior Data Scientist (Feb 2023 – Present)**
 
-- Spearheaded a $150 M annual optimization initiative, leading end-to-end design, modeling, and deployment of predictive analytics pipelines to enhance Toyota’s supply chain and production planning.
-- Led predictive scheduling and production planning initiatives, developing scalable ML workflows that integrated supply-chain constraints and production targets, improving monthly manufacturing schedules, reducing overstock, and optimizing plant-level throughput.
-- Developed and deployed an internal GenAI assistant (“AskToyota”) using LLaMA2, FAISS, and LangChain to streamline access to forecasting and scheduling documentation, improving operational decision-making speed and cross-team productivity.
-- Built scalable ML pipelines using AWS SageMaker, Airflow, and CloudWatch, enabling automation and real-time monitoring while reducing operational overhead.
-- Designed and implemented large-scale production planning solutions using constrained linear programming with Gurobi, improving plant-level efficiency and cost savings.
-- Applied causal inference and A/B testing frameworks to evaluate ML impact and drive KPI development, resulting in a 20 % lift in accessory conversions.
-- Engineered big data pipelines using PySpark and Parquet, and wrote optimized SQL for Oracle DB and Redshift, improving query performance and data accessibility by over 30 %.
+• Led the design and POC of AskToyota, a GenAI chatbot using LangChain, FAISS, LangGraph, and LLaMA 2,
+deployed in secure VPC environments with IAM-based access control and TLS. Reduced stakeholder turnaround time
+by 30% by surfacing forecasts and KPIs on demand.
+• Spearheaded Accessory Recommendation engine generating $150M+ annual revenue using XGBoost, dynamic
+segmentation, and incentive-aware retraining, integrated A/B testing and causal inference for robust evaluation.
+• Built Toyota’s Annual Production Optimizer (APO) using Gurobi to solve multi-objective LP problems (profit, volume,
+GHG score) across 14 global factories, optimizing $700M+ in planning annually.
+• Developed Smart Forecasting engine with PySpark and SARIMAX to predict dealer-level sales; enabled 3+ hours/
+month time savings per dealer and built self-serve analytics dashboards via QuickSight.
+• Productionized ML pipelines on SageMaker, integrating model registry, drift detection with auto-retraining, Airflow
+orchestration, and CloudWatch/Datadog monitoring for real-time alerts.
+• Deployed real-time ETA API for dealer websites using ElastiCache Redis with SHA-1 for online inference; batchtrained models using PySpark and Parquet on S3. Packaged with Docker and deployed via Kubernetes.
+• Blended causal inference and A/B testing frameworks with GenAI tools (AWS Bedrock, LangChain agents, Guardrails
+AI, Pinecone, FAISS) to auto-explain accessory model KPIs, increasing dealer conversions by 20% and boosting
+stakeholder trust.
 
 ### Alexa AI, Amazon, Santa Barbara, CA
 
 **Data Scientist Intern (May 2022 – Aug 2022)**
 
-- Improved the Alexa categorizer model by utilizing AWS Glue for data extraction and feature engineering, enhancing prediction accuracy for low-frequency queries.
-- Created a stratified sampling model to reduce confidence intervals, providing actionable insights into Alexa’s performance and improving user satisfaction.
-- Built a reporting pipeline and dashboards using AWS QuickSight for historical analysis of Alexa’s success rate, adopted as the primary reporting tool in weekly business webinars.
+• Retrained and deployed Alexa’s question categorizer using advanced NLP (multi-class classification, intent
+detection), improving query routing across 100+ categories via SageMaker.
+• Used resampling and confidence intervals to evaluate and improve model confidence on rare query intents,
+increasing trust and accuracy for low-frequency categories in Alexa.
+• Improved the generated success rate model’s alignment with human-labeled success rate, reducing gap from
+~20% to under 14%, enabling reduced annotation spend.
+• Built reporting pipelines that pushed KPIs into Redshift and Quicksight to visualize key health metrics and rolling
+forecast 3-month trends to support weekly reviews with product stakeholders.
 
 ### Cyient Ltd, India
 
@@ -71,11 +93,11 @@
 ## Interested Roles
 
 - Data Scientist
+- Machine Learning Engineer
+- AI Engineer
+- Applied Scientist
 - Software Engineer
 - Data Engineer
-- Machine Learning Engineer
-- Applied Scientist
-- Solutions Engineer
 - Open to in-person positions and relocation anywhere in the USA.
 
 ---
@@ -90,7 +112,7 @@
 
 ### How many years of experience does Prateesh have?
 
-Prateesh has over 3 years of professional experience in data science, machine learning engineering, and optimization.
+Prateesh has over 4 years of professional experience in data science, machine learning engineering, and optimization.
 
 ### What are Prateesh’s interests or hobbies?
 
@@ -193,6 +215,14 @@ Patlolla.
 ### What is his favorite car?
 
 He’s a big fan of the Lamborghini Urus —power, elegance, comfort and exhaust notes all in one.
+
+### What is his height?
+
+He's actually 5' 11' but secretly between us he says he is 6 feet tall.
+
+### How old is he?
+
+His strict orders were for me to say mid he is in mid 20s always and forever.
 
 ### Where does Prateesh see himself in 5 years?
 

@@ -4926,3 +4926,55 @@ body.is-preload #intro:not(.hidden) + #header + #nav {
     visibility: visible;
   }
 }
+
+/* Projects Heading */
+#projects {
+  text-align: center;
+  margin: 2rem 0 1.5rem;
+  font-family: 'Telma', sans-serif;
+  font-size: 2.5rem;
+  /* adjust if you want it bigger/smaller */
+  font-weight: 700;
+  color: #000;
+}
+
+/* “About Me” heading */
+.post.featured header.major h2 a {
+  font-family: 'Telma', sans-serif;
+  font-size: 2.5rem;
+  /* ~40px */
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+/* Image on the right */
+.post.featured .image.right {
+  float: right;
+  width: 350px;
+  height: auto;
+  margin: 0 0 1rem 1rem;
+}
+
+.post.featured .image.right img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* Body copy at 18px brown */
+.post.featured>p {
+  font-family: 'Montserrat';
+  font-size: 18px;
+  color: brown;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+/* nav link font size */
+#nav .links li a {
+  font-size: 8rem;
+}
