@@ -12,6 +12,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
+    <!-- Add Google Font: Playfair Display -->
+    <link href="https://api.fontshare.com/css?f[]=Telma@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript
       ><link rel="stylesheet" href="assets/css/noscript.css"
@@ -45,180 +47,69 @@
       <nav id="nav">
         <ul class="links">
           <li class="active"><a href="index.html">About Me</a></li>
-          <!-- Additional Pages -- <li><a href="generic.html">Generic Page</a></li>
-							<li><a href="elements.html">Elements </a></li><!-->
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="Files/CV.pdf" target="_blank">Resume</a></li>
         </ul>
         <ul class="icons">
           <li>
-            <a
-              href="https://www.linkedin.com/in/prateeshreddy/"
-              class="icon brands fa-linkedin"
-              ><span class="label">Linkedin</span></a
-            >
+            <a href="https://www.linkedin.com/in/prateeshreddy/" class="icon brands fa-linkedin">
+              <span class="label">LinkedIn</span>
+            </a>
           </li>
           <li>
-            <a
-              href="https://github.com/prateeshreddy"
-              class="icon brands fa-github"
-              ><span class="label">GitHub</span></a
-            >
+            <a href="https://github.com/prateeshreddy" class="icon brands fa-github">
+              <span class="label">GitHub</span>
+            </a>
           </li>
         </ul>
       </nav>
+
 
       <!-- Main -->
       <div id="main">
         <!-- Featured Post -->
         <article class="post featured">
           <header class="major">
-            <style>
-              p {
-                color: brown;
-              }
-            </style>
             <h2>
-              <a href="#">About Me<br /> </a>
+              <a href="#">About Me</a>
             </h2>
             <span class="image right"
               ><img src="images/aboutme_picture.png" alt=""
             /></span>
           </header>
-          <br />
-          <p style="font-size: 14px">
-            I’m a Senior Data Scientist with over 3 years of experience building
-            and scaling machine learning, optimization, and cloud-based AI
-            solutions. I hold a Master’s degree in Data Science from Indiana
-            University Bloomington (GPA: 4.0/4.0), and my expertise spans
-            machine learning, demand forecasting, optimization algorithms, A/B
-            testing, data engineering, and full-stack model deployment.
+          <p>
+            I'm a ML Engineer with 4+ years of experience building and scaling solutions across machine learning, optimization, and
+            Generative AI. With a Master’s in Data Science from Indiana University Bloomington (GPA: 4.0), I’ve applied my skills to
+            solve complex real-world problems at scale.
           </p>
 
-          <p style="font-size: 14px">
-            My core strength lies in developing scalable ML pipelines and
-            applying advanced statistical and optimization techniques to solve
-            large-scale infrastructure and business challenges. Recently at
-            Toyota, I led a $150M optimization initiative by designing
-            predictive scheduling and production planning models using
-            constrained linear programming (GurobiPy), significantly enhancing
-            supply chain efficiency and manufacturing throughput.
+          <p>
+            At Toyota, I led high-impact projects that generated multi-million dollar value across forecasting, optimization, and AI
+            automation. I designed and deployed a $150M+ Accessory Recommendation System and architected an Annual Planning
+            Optimizer using constrained linear programming (GurobiPy) improving manufacturing throughput and streamlining national
+            vehicle build planning. I’ve shipped full-stack ML systems using SageMaker, Airflow, Redshift, PySpark, and
+            containerized APIs on AWS, Databricks and Azure, ensuring production-grade performance and scalability.
           </p>
 
-          <p style="font-size: 14px">
-            Expanding into Generative AI, I developed and deployed an internal
-            Q&A system ("AskToyota") leveraging LLaMA2, FAISS, and LangChain to
-            streamline access to critical forecasting and scheduling
-            documentation. This tool improved operational decision-making across
-            business units and demonstrated my ability to deploy secure,
-            production-ready LLM solutions in an enterprise environment.
+          <p>
+            Lately, I’ve been focused on building agentic GenAI experiences using LangChain, LangGraph, OpenAgents, and AWS Bedrock,
+            including "AskToyota" an internal Q&A assistant powered by LLaMA2 and FAISS that improved access to forecasting
+            documentation across business units. And right here on this site, you'll find “Ask About Prateesh”, a chatbot that
+            answers questions about my background, my projects, and even my dating life. It learns from feedback, stores unknown
+            questions, and improves over time. Go ahead, test it out!
           </p>
 
-          <p style="font-size: 14px">
-            I have extensive hands-on experience with cloud platforms like AWS
-            and Azure, where I designed solutions for real-time data processing,
-            scalable model training (SageMaker), automated ML pipelines
-            (Airflow), and containerized API deployments (Docker, FastAPI). My
-            background includes building robust ETL pipelines, managing big data
-            processing with PySpark and Redshift, and ensuring high-quality data
-            flows into production ML systems.
+          <p>
+            If you're hiring or collaborating on ML, optimization, or GenAI initiatives, feel free to reach out the chatbot knows
+            where to find me 😉 
           </p>
-
-          <p style="font-size: 14px">
-            With deep experience in supply chain analytics, demand modeling,
-            optimization, and Generative AI, I am passionate about applying
-            cutting-edge machine learning and cloud technologies to drive real
-            business impact. I bring a strong focus on operational scalability,
-            cost savings, and innovation to every project.
-          </p>
-
-          <p style="font-size: 14px">
-            If you'd like to connect about potential opportunities, projects, or
-            collaborations, feel free to
-            <a href="mailto:patlollaprateesh@gmail.com">Email Me</a> or
-            <a href="Files/CV.pdf" target="_blank">Download my Resume</a>.
+          <p>
+            👉 Or better yet, 
+            <a href="Files/CV.pdf" target="_blank">Download my resume here</a> or
+            <a href="mailto:patlollaprateesh@gmail.com">Email me</a> 
           </p>
 
           <br /><br /><br />
-
-          <!-- Skills Icons Wrapped in Flexbox -->
-          <div
-            class="skills-icons"
-            style="
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
-              align-items: center;
-              gap: 20px;
-              margin: 20px 0;
-            "
-          >
-            <img
-              alt="Visual Studio Code"
-              width="40px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/visual-studio-code/visual-studio-code.png"
-            />
-            <img
-              alt="Python"
-              width="40px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png"
-            />
-            <img
-              alt="R"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/r/r.png"
-            />
-            <img
-              alt="Java"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/java/java.png"
-            />
-            <img
-              alt="Docker"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/docker/docker.png"
-            />
-            <img
-              alt="AWS"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/e94815998e4e0713912fed477a1f346ec04c3da2/topics/aws/aws.png"
-            />
-            <img
-              alt="TensorFlow"
-              width="40px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/tensorflow/tensorflow.png"
-            />
-            <img
-              alt="JavaScript"
-              width="26px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/javascript/javascript.png"
-            />
-            <img
-              alt="React"
-              width="26px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png"
-            />
-            <img
-              alt="SQL"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/sql/sql.png"
-            />
-            <img
-              alt="MySQL"
-              width="40px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/mysql/mysql.png"
-            />
-            <img
-              alt="Git"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/git/git.png"
-            />
-            <img
-              alt="GitHub"
-              width="35px"
-              src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png"
-            />
-          </div>
-
-          <br /><br /><br /><br />
 
           <!-- Resume Button Updated to Open PDF Directly -->
           <ul class="actions special">
@@ -231,7 +122,7 @@
         </article>
 
         <!-- Projects -->
-        <h2>Checkout My Projects</h2>
+        <h2 id="projects">Checkout My Projects</h2>
         <section class="posts">
           <article>
             <header>
